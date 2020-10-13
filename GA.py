@@ -1,18 +1,18 @@
 import random
-import copy
 import numpy as np
+import copy
 
 
-def generateKromosom(uk_krom):
+def generateKromosom(krom_size):
     krom = []  
-    for i in range(uk_krom):
+    for i in range(krom_size):
         krom.append(random.randint(0,1))      
     
     return krom
 
-def generatePopulasi(uk_pop):
+def generatePopulasi(pop_size):
     pop = []
-    for i in range(uk_pop):
+    for i in range(pop_size):
         pop.append(generateKromosom(6))
     return pop
 def encodingKromosom(krom): 
