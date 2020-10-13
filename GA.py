@@ -10,3 +10,4 @@ def generateKromosom(uk_krom):
     
     return krom
 
+""this is a comment ""
