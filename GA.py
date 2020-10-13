@@ -10,4 +10,8 @@ def generateKromosom(uk_krom):
     
     return krom
 
-""this is a comment ""
+def generatePopulasi(uk_pop):
+    pop = []
+    for i in range(uk_pop):
+        pop.append(generateKromosom(6))
+    return pop
