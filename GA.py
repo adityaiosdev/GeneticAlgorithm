@@ -96,9 +96,11 @@ def fitnesss(populatt):
     return k
 
 print(nampungencoding(populationbaru))
-
 for i in range (popsize+1):
     print(fitness(populationbaru[i]))
+
+print("Ini Maks")
+print(fitness((populationbaru)))
 
 #print(nampungencoding(populationbaru))
 
