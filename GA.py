@@ -88,19 +88,26 @@ def nampungencoding(populatt):
         arrayencode.append(encodingKromosom(populatt[i]))
     return arrayencode
 
+print(nampungencoding(populationbaru))
+
+
 def fitnesss(populatt):
     k=nampungencoding(populatt)
     for i in range (popsize+1):
-        fitnessfunc= -((np.cos(k[i][0]))*(np.sin(k[i][1]))- (k[i][0]/(k[i][1]**2)+1))
+        fitnessfunc= -((np.cos(k[i][0]))*(np.sin(k[i][1]))- (k[i][0]/((k[i][1])**2)+1))
         k[i]=fitnessfunc
     return k
+print(fitnesss(populationbaru))
+print("ini maks ")
+print(np.max(fitnesss(populationbaru)))
 
-print(nampungencoding(populationbaru))
-for i in range (popsize+1):
-    print(fitness(populationbaru[i]))
 
-print("Ini Maks")
-print(fitness((populationbaru)))
+# print(nampungencoding(populationbaru))
+# for i in range (popsize+1):
+#     print(fitnesss(populationbaru[i]))
+
+# print("Ini Maks Goblok")
+# print(fitnesss(max(populationbaru)))
 
 #print(nampungencoding(populationbaru))
 
