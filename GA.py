@@ -74,8 +74,11 @@ def generatePopulation():
 
 populationbaru= generatePopulation()
 populationbaru.append(generateKromosom(krom_size))
-print(arrAllFitness(populationbaru,popsize))
+# print(arrAllFitness(populationbaru,popsize))
+print("============================ Populasi ==========================")
 print(populationbaru)
+print("============================ ===================================")
+print("")
 
 
 
@@ -85,7 +88,11 @@ def nampungencoding(populatt):
         arrayencode.append(encodingKromosom(populatt[i]))
     return arrayencode
 
+print("============================ Hasil Encoding Tiap Individu ==========================")
 print(nampungencoding(populationbaru))
+print("====================================================================================")
+print("")
+print("")
 
 def hasilfitnesss(populatt):
     k=nampungencoding(populatt)
@@ -107,15 +114,14 @@ def nampungfitness(populatt,popsize):
     return fit_all
 
 def tournamentSelection(pop, uk_tour, popsize):
-    krom = fitnesss(pop)
     best_krom=[]
     for i in range(1, uk_tour):
-        random.randint(0,8)
-        j= random.choice(krom)
-        if(best_krom == []) or j> best_krom:
-            best_krom = j
+        p=populationbaru[random.randint(0,popsize-1)]
+        print("coba")
+        if (len(best_krom) == 0) or fitnesss(p)>fitnesss(best_krom):
+            best_krom=p
+            print(best_krom)
     return best_krom
-
 
 
 # print("ini fitness")
@@ -130,14 +136,19 @@ def tournamentSelection(pop, uk_tour, popsize):
 #     p=populationbaru[random.randint(0,popsize)]
 #     if (best_krom==[]) or fitnesss(p)>fitnesss(best_krom):
 #         best_krom = p
+print("============================ Hasil Fitness Semua Infividu ==========================")
 print(hasilfitnesss(populationbaru))
-best_krom=[]
-for i in range(1, uk_tour):
-    p=populationbaru[random.randint(0,popsize-1)]
-    print("coba")
-    if (len(best_krom) == 0) or fitnesss(p)>fitnesss(best_krom):
-        best_krom=p
-        print(best_krom)
+print("============================ =======================================================")
+# print(tournamentSelection(populationbaru,uk_tour,popsize))
+parent1 = tournamentSelection(populationbaru,uk_tour,popsize)
+print(parent1)
+# best_krom=[]
+# for i in range(1, uk_tour):
+#     p=populationbaru[random.randint(0,popsize-1)]
+#     print("coba")
+#     if (len(best_krom) == 0) or fitnesss(p)>fitnesss(best_krom):
+#         best_krom=p
+#         print(best_krom)
 
 
 
