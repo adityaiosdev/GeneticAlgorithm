@@ -2,7 +2,6 @@ import random
 import numpy as np
 import copy
 
-
 def generateKromosom(krom_size):
     krom = []  
     for i in range(krom_size):
@@ -32,19 +31,11 @@ def arrAllFitness(pop,pop_size):
         arrfit.append(fitness(pop[i]))
     return arrfit
 
-def tournamentSelection(pop, uk_tour, popsize):
-    best_krom = []
-    for i in range(1, uk_tour):
-        krom = pop[random.randint(0,popsize-1)]
-        if (best_krom == [] or fitness(krom) > fitness(best_krom)):
-            best_krom = krom
-    return best_krom
-
 
 def crossover(parent1,parent2,pcross):
     r =random.random()
     if (r<pcross):
-        point = random.randint(0,5)
+        point = random.randint(0,7)
         for i in range(point):
             parent1[i],parent2[i]=parent2[i],parent1[i]
 
@@ -60,17 +51,17 @@ def mutation(parent1,parent2,pmutate):
 def getElitisme(arrfit):
     return arrfit.index(max(arrfit))
 
-popsize = 1
+popsize = 8
 generation = 50
 pcross= 0.70
 pmutate= 0.02
 uk_tour = 5
-krom_size = 6
+krom_size = 10
 
 arr_fitness =[]
 def encodingKromosom(krom): 
-    x1= -1+ ((2+1)/(2**-1 + 2**-2+2**-3))*((krom[0]*2**-1)+(krom[1]*2**-2)+(krom[2]*2**-3))
-    x2 =-1+ ((1+1)/(2**-1 + 2**-2+2**-3))*((krom[3]*2**-1)+(krom[4]*2**-2)+(krom[5]*2**-3))
+    x1 =-1+ ((2+1)/(2**-1 + 2**-2+2**-3))*((krom[0]*2**-1)+(krom[1]*2**-2)+(krom[2]*2**-3)+(krom[3]*2**-4)+(krom[4]*2**-5))
+    x2 =-1+ ((1+1)/(2**-1 + 2**-2+2**-3))*((krom[5]*2**-1)+(krom[6]*2**-2)+(krom[7]*2**-3)+(krom[8]*2**-4)+(krom[9]*2**-5))
     
     return [x1, x2]
 def generatePopulation():
@@ -79,9 +70,15 @@ def generatePopulation():
         new_pop.append(generateKromosom(krom_size))
     return new_pop
 
+
+
 populationbaru= generatePopulation()
 populationbaru.append(generateKromosom(krom_size))
+print(arrAllFitness(populationbaru,popsize))
 print(populationbaru)
+
+
+
 def nampungencoding(populatt):
     arrayencode=[]
     for i in range (popsize+1):
@@ -90,16 +87,78 @@ def nampungencoding(populatt):
 
 print(nampungencoding(populationbaru))
 
-
-def fitnesss(populatt):
+def hasilfitnesss(populatt):
     k=nampungencoding(populatt)
     for i in range (popsize+1):
         fitnessfunc= -((np.cos(k[i][0]))*(np.sin(k[i][1]))- (k[i][0]/((k[i][1])**2)+1))
         k[i]=fitnessfunc
     return k
-print(fitnesss(populationbaru))
-print("ini maks ")
-print(np.max(fitnesss(populationbaru)))
+
+def fitnesss(populatt):
+    k=encodingKromosom(populatt)
+    fitnessfunc= -((np.cos(k[0]))*(np.sin(k[1]))- (k[0]/((k[1])**2)+1))
+    return fitnessfunc
+
+def nampungfitness(populatt,popsize):
+    fit_all = []    
+    for i in range(popsize):
+        fit_all.append(fitnesss(popsize[i]))
+    
+    return fit_all
+
+def tournamentSelection(pop, uk_tour, popsize):
+    krom = fitnesss(pop)
+    best_krom=[]
+    for i in range(1, uk_tour):
+        random.randint(0,8)
+        j= random.choice(krom)
+        if(best_krom == []) or j> best_krom:
+            best_krom = j
+    return best_krom
+
+
+
+# print("ini fitness")
+
+# print(fitnesss(populationbaru))
+
+# j= random.choice(fitnesss(populationbaru))
+# print(j)
+
+# best_krom=[]
+# for i in range(1, uk_tour):
+#     p=populationbaru[random.randint(0,popsize)]
+#     if (best_krom==[]) or fitnesss(p)>fitnesss(best_krom):
+#         best_krom = p
+print(hasilfitnesss(populationbaru))
+best_krom=[]
+for i in range(1, uk_tour):
+    p=populationbaru[random.randint(0,popsize-1)]
+    print("coba")
+    if (len(best_krom) == 0) or fitnesss(p)>fitnesss(best_krom):
+        best_krom=p
+        print(best_krom)
+
+
+
+# print(best_krom)
+# print(np.max(best_krom))
+
+
+# krom = fitnesss(populationbaru)
+# print (krom)
+# parent1=tournamentSelection(populationbaru,uk_tour,popsize)
+# print ("ini parent")
+# print(parent1)
+
+#print(fitnesss(populationbaru))
+# print("ini maks ")
+# print(np.max(fitnesss(populationbaru)))
+
+
+
+
+
 
 
 # print(nampungencoding(populationbaru))
