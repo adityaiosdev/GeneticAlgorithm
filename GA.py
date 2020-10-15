@@ -117,10 +117,8 @@ def tournamentSelection(pop, uk_tour, popsize):
     best_krom=[]
     for i in range(1, uk_tour):
         p=populationbaru[random.randint(0,popsize-1)]
-        print("coba")
         if (len(best_krom) == 0) or fitnesss(p)>fitnesss(best_krom):
             best_krom=p
-            print(best_krom)
     return best_krom
 
 
@@ -140,8 +138,21 @@ print("============================ Hasil Fitness Semua Infividu ===============
 print(hasilfitnesss(populationbaru))
 print("============================ =======================================================")
 # print(tournamentSelection(populationbaru,uk_tour,popsize))
+print("============================parent1  =======================================================")
 parent1 = tournamentSelection(populationbaru,uk_tour,popsize)
 print(parent1)
+print("============================ ==============================================================")
+print("")
+print("============================parent 2 =======================================================")
+parent2 = tournamentSelection(populationbaru,uk_tour,popsize)
+print(parent2)
+print("============================ =======================================================")
+print("")
+if(parent1==parent2):
+    parent2 = tournamentSelection(populationbaru,uk_tour,popsize)
+print("============================anaknya =======================================================")
+child= crossover(parent1,parent2,pcross)
+print(child)
 # best_krom=[]
 # for i in range(1, uk_tour):
 #     p=populationbaru[random.randint(0,popsize-1)]
@@ -222,4 +233,4 @@ print(parent1)
 # print()
 # print('Kromosom terbaik:', population[result])
 # print('Fitness terbaik :', fitness(population[result]))
-# print('Hasil decode    :', encodingKromosom(population[result]))
+# print('Hasil decode    :', encodingKromosom(population[result]))sdaas
