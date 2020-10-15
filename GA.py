@@ -38,14 +38,26 @@ def crossover(parent1,parent2,pcross):
         point = random.randint(0,7)
         for i in range(point):
             parent1[i],parent2[i]=parent2[i],parent1[i]
-
     return parent1,parent2
 
 def mutation(parent1,parent2,pmutate):
     r=random.random()
     if (r< pmutate):
-        parent1[random.randint(0,5)] = random.randint(0,1)
-        parent2[random.randint(0,5)] = random.randint(0,1)
+        r1= random.randint(0,9)
+        r2= random.randint(0,9)
+        p1= parent1[r1]
+        p2= parent2[r2]
+        r=random.random()
+        if (p1==0):
+            p1=1
+        elif (p1==1):
+            p1=0
+        if (p2==0):
+            p2=1
+        elif (p2==1):
+            p2=0
+    parent1[r1] = p1
+    parent2[r2] = p2
     return parent1,parent2
 
 def getElitisme(arrfit):
@@ -53,8 +65,8 @@ def getElitisme(arrfit):
 
 popsize = 8
 generation = 50
-pcross= 0.70
-pmutate= 0.02
+pcross= 1000
+pmutate= 100
 uk_tour = 5
 krom_size = 10
 
@@ -148,9 +160,14 @@ parent2 = tournamentSelection(populationbaru,uk_tour,popsize)
 print(parent2)
 print("============================ =======================================================")
 print("")
+print("ini mutasi")
 if(parent1==parent2):
     parent2 = tournamentSelection(populationbaru,uk_tour,popsize)
+print("============================ =======================================================")
+print(mutation(parent1,parent2,pmutate))
 print("============================anaknya =======================================================")
+print(parent1)
+print(parent2)
 child= crossover(parent1,parent2,pcross)
 print(child)
 # best_krom=[]
@@ -233,4 +250,4 @@ print(child)
 # print()
 # print('Kromosom terbaik:', population[result])
 # print('Fitness terbaik :', fitness(population[result]))
-# print('Hasil decode    :', encodingKromosom(population[result]))sdaas
+# print('Hasil decode    :', encodingKromosom(population[result]))sdaaspjiqwjepqjweqwpojewqnjsdnjdsn
