@@ -61,11 +61,11 @@ def mutation(parent1,parent2,pmutate):
     parent2[r2] = p2
     return parent1,parent2
 
-def getElitisme(arrfit):
-    return arrfit.index(max(arrfit))
+def getElitisme(arr_fit):
+    return arr_fit.index(max(arr_fit))
 
 popsize = 100
-generation = 1000
+generation = 200
 pcross= 0.7
 pmutate= 0.01
 uk_tour = 5
@@ -120,14 +120,13 @@ def hasilfitnesss(populatt):
 
 def fitnesss(populatt):
     k=encodingKromosom(populatt)
-    fitnessfunc= 1/(((np.cos(k[0])*np.sin(k[1]))+0.01))- ((((k[1])**2)+1+0.01)/(k[0]))
+    fitnessfunc= 1/(((np.cos(k[0])*np.sin(k[1]))+0.01))- ((((k[1])**2)+1-0.01)/(k[0]))
     return fitnessfunc
 
-def nampungfitness(populatt,popsize):
+def nampungfitness(populatt,popsize): 
     fit_all = []    
     for i in range(popsize):
         fit_all.append(fitnesss(popsize[i]))
-    
     return fit_all
 
 def tournamentSelection(pop, uk_tour, popsize):
@@ -240,9 +239,9 @@ for i in range(generation):
         parent2 = tournamentSelection(population,uk_tour,popsize)
         while (parent1==parent2):
             parent2 = tournamentSelection(population,uk_tour,popsize)
-        cpar1= copy.deepcopy(parent1)
-        cpar2= copy.deepcopy(parent2)
-        child= crossover(cpar1,cpar2,pcross)
+        coppar1= copy.deepcopy(parent1)
+        coppar2= copy.deepcopy(parent2)
+        child= crossover(coppar1,coppar2,pcross)
         child= mutation(child[0],child[1],pmutate)
         new_pop += child
         i+=2
@@ -250,9 +249,11 @@ for i in range(generation):
 fungsfitness= hasilfitnesss(populationbaru)
 result =getElitisme(fungsfitness)
 
-
+print("")
+print("========================================================================================")
 print('           HASIL MINIMASI FUNGSI')
 print()
 print('Kromosom terbaik:', populationbaru[result])
 print('Fitness terbaik :', fitnesss(populationbaru[result]))
 print('Hasil decode    :', encodingKromosom(populationbaru[result]))
+print("========================================================================================")
