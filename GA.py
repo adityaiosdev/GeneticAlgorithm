@@ -2,9 +2,9 @@ import random
 import numpy as np
 import copy
 
-def generateKromosom(krom_size):
+def generateKromosom(kromsize):
     krom = []  
-    for i in range(krom_size):
+    for i in range(kromsize):
         krom.append(random.randint(0,1))      
     return krom
 
@@ -68,8 +68,9 @@ popsize = 100
 generation = 200
 pcross= 0.7
 pmutate= 0.01
-uk_tour = 5
-krom_size = 10
+toursize = 5
+kromsize = 10
+totalgen = 0
 
 arr_fitness =[]
 def encodingKromosom(krom): 
@@ -79,13 +80,13 @@ def encodingKromosom(krom):
 def generatePopulation():
     new_pop=[]
     for i in range (popsize):
-        new_pop.append(generateKromosom(krom_size))
+        new_pop.append(generateKromosom(kromsize))
     return new_pop
 
 
 
 populationbaru= generatePopulation()
-populationbaru.append(generateKromosom(krom_size))
+
 # print(arrAllFitness(populationbaru,popsize))
 print("============================ Populasi ==========================")
 print(populationbaru)
@@ -95,21 +96,21 @@ print("")
 
 
 
-def nampungencoding(populatt):
-    arrayencode=[]
-    for i in range (popsize+1):
-        arrayencode.append(encodingKromosom(populatt[i]))
-    return arrayencode
+# def nampungencoding(populatt):
+#     arrayencode=[]
+#     for i in range (popsize+1):
+#         arrayencode.append(encodingKromosom(populatt[i]))
+#     return arrayencode
 
-print("============================ Hasil Encoding Tiap Individu ==========================")
-print(nampungencoding(populationbaru))
-print("====================================================================================")
-print("")
-print("")
+# print("============================ Hasil Encoding Tiap Individu ==========================")
+# print(nampungencoding(populationbaru))
+# print("====================================================================================")
+# print("")
+# print("")
 
 def hasilfitnesss(populatt):
     k=[]
-    for i in range (popsize+1):
+    for i in range (popsize):
         k.append(fitnesss(populatt[i]))
     return k
     # def arrAllFitness(pop,pop_size):
@@ -120,7 +121,7 @@ def hasilfitnesss(populatt):
 
 def fitnesss(populatt):
     k=encodingKromosom(populatt)
-    fitnessfunc= 1/(((np.cos(k[0])*np.sin(k[1]))+0.01))- ((((k[1])**2)+1-0.01)/(k[0]))
+    fitnessfunc= 1/((((np.cos(k[0])*np.sin(k[1]))) - (k[0]/((k[1]**2)+1))) + 0.01)
     return fitnessfunc
 
 def nampungfitness(populatt,popsize): 
@@ -150,9 +151,9 @@ def tournamentSelection(pop, uk_tour, popsize):
 #     p=populationbaru[random.randint(0,popsize)]
 #     if (best_krom==[]) or fitnesss(p)>fitnesss(best_krom):
 #         best_krom = p
-print("============================ Hasil Fitness Semua Infividu ==========================")
-print(hasilfitnesss(populationbaru))
-print("============================ =======================================================")
+# print("============================ Hasil Fitness Semua Infividu ==========================")
+# print(hasilfitnesss(populationbaru))
+# print("============================ =======================================================")
 # print(tournamentSelection(populationbaru,uk_tour,popsize))
 # print("============================parent1  =======================================================")
 # parent1 = tournamentSelection(populationbaru,uk_tour,popsize)
@@ -208,7 +209,7 @@ print("============================ ============================================
 # for i in range (popsize+1):
 #     print(fitnesss(populationbaru[i]))
 
-# print("Ini Maks Goblok")
+# print("Ini Maks ")
 # print(fitnesss(max(populationbaru)))
 
 #print(nampungencoding(populationbaru))
@@ -231,29 +232,31 @@ for i in range(generation):
     new_pop = []
 
     bestfitness=getElitisme(fungsfitness)
-    new_pop.append(population[bestfitness])
-    new_pop.append(population[bestfitness])
+    new_pop.append(populationbaru[bestfitness])
+    new_pop.append(populationbaru[bestfitness])
     i=0
     while (i<popsize-1):
-        parent1 = tournamentSelection(population,uk_tour,popsize)
-        parent2 = tournamentSelection(population,uk_tour,popsize)
+        parent1 = tournamentSelection(populationbaru,toursize,popsize)
+        parent2 = tournamentSelection(populationbaru,toursize,popsize)
         while (parent1==parent2):
-            parent2 = tournamentSelection(population,uk_tour,popsize)
+            parent2 = tournamentSelection(populationbaru,toursize,popsize)
         coppar1= copy.deepcopy(parent1)
         coppar2= copy.deepcopy(parent2)
         child= crossover(coppar1,coppar2,pcross)
         child= mutation(child[0],child[1],pmutate)
         new_pop += child
         i+=2
-    population= new_pop
+    populationbaru= new_pop
 fungsfitness= hasilfitnesss(populationbaru)
 result =getElitisme(fungsfitness)
+totalgen=totalgen+generation
 
 print("")
 print("========================================================================================")
-print('           HASIL MINIMASI FUNGSI')
+print('           HASIL MINIMASI FUNGSI  ')
 print()
 print('Kromosom terbaik:', populationbaru[result])
-print('Fitness terbaik :', fitnesss(populationbaru[result]))
+print('Nilai Fitness terbaik :', fitnesss(populationbaru[result]))
 print('Hasil decode    :', encodingKromosom(populationbaru[result]))
+print("copy")
 print("========================================================================================")
