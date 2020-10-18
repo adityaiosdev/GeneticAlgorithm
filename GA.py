@@ -8,30 +8,6 @@ def generateKromosom(kromsize):
         krom.append(random.randint(0,1))      
     return krom
 
-def generatePopulasi(pop_size):
-    pop = []
-    for i in range(pop_size):
-        pop.append(generateKromosom(6))
-    return pop
-
-def encodingKromosom(krom): 
-    x1= -1+ ((2+1)/(2**-1 + 2**-2+2**-3))*((krom[0]*2**-1)+(krom[1]*2**-2)+(krom[2]*2**-3))
-    x2 =-1+ ((1+1)/(2**-1 + 2**-2+2**-3))*((krom[3]*2**-1)+(krom[4]*2**-2)+(krom[5]*2**-3))
-    
-    return [x1, x2]
-
-# def fitness(krom):
-#     k= encodingKromosom(krom)
-#     fitnessfunc= -((np.cos(k[0]))*(np.sin(k[1]))- (k[0]/(k[1]**2)+1))
-#     return fitnessfunc
-
-# def arrAllFitness(pop,pop_size):
-#     arrfit=[]
-#     for i in range (pop_size):
-#         arrfit.append(fitness(pop[i]))
-#     return arrfit
-
-
 def crossover(parent1,parent2,pcross):
     r =random.random()
     if (r<pcross):
@@ -61,21 +37,20 @@ def mutation(parent1,parent2,pmutate):
     parent2[r2] = p2
     return parent1,parent2
 
-def getElitisme(arr_fit):
-    return arr_fit.index(max(arr_fit))
+def getElitisme(array_fitness):
+    return array_fitness.index(max(array_fitness))
 
 popsize = 100
-generation = 200
+generation = 50
 pcross= 0.7
 pmutate= 0.01
-toursize = 5
+toursize = 10
 kromsize = 10
-totalgen = 0
 
 arr_fitness =[]
-def encodingKromosom(krom): 
-    x1 =-1+ ((2+1)/(2**-1 + 2**-2+2**-3))*((krom[0]*2**-1)+(krom[1]*2**-2)+(krom[2]*2**-3)+(krom[3]*2**-4)+(krom[4]*2**-5))
-    x2 =-1+ ((1+1)/(2**-1 + 2**-2+2**-3))*((krom[5]*2**-1)+(krom[6]*2**-2)+(krom[7]*2**-3)+(krom[8]*2**-4)+(krom[9]*2**-5))
+def encodingKromosom(kromos): 
+    x1 =-1+ ((2+1)/(2**-1 + 2**-2+2**-3+2**-4+2**-5))*((kromos[0]*2**-1)+(kromos[1]*2**-2)+(kromos[2]*2**-3)+(kromos[3]*2**-4)+(kromos[4]*2**-5))
+    x2 =-1+ ((1+1)/(2**-1 + 2**-2+2**-3+2**-4+2**-5))*((kromos[5]*2**-1)+(kromos[6]*2**-2)+(kromos[7]*2**-3)+(kromos[8]*2**-4)+(kromos[9]*2**-5))
     return [x1, x2]
 def generatePopulation():
     new_pop=[]
@@ -83,45 +58,17 @@ def generatePopulation():
         new_pop.append(generateKromosom(kromsize))
     return new_pop
 
-
-
-populationbaru= generatePopulation()
-
-# print(arrAllFitness(populationbaru,popsize))
-print("============================ Populasi ==========================")
-print(populationbaru)
-print("============================ ===================================")
-# print(arrAllFitness(populationbaru,popsize))
-print("")
-
-
-
-# def nampungencoding(populatt):
-#     arrayencode=[]
-#     for i in range (popsize+1):
-#         arrayencode.append(encodingKromosom(populatt[i]))
-#     return arrayencode
-
-# print("============================ Hasil Encoding Tiap Individu ==========================")
-# print(nampungencoding(populationbaru))
-# print("====================================================================================")
-# print("")
-# print("")
-
-def hasilfitnesss(populatt):
+def hasilfitnesss(populatt,popsize):
     k=[]
     for i in range (popsize):
         k.append(fitnesss(populatt[i]))
     return k
-    # def arrAllFitness(pop,pop_size):
-#     arrfit=[]
-#     for i in range (pop_size):
-#         arrfit.append(fitness(pop[i]))
-#     return arrfit
-
 def fitnesss(populatt):
     k=encodingKromosom(populatt)
-    fitnessfunc= 1/((((np.cos(k[0])*np.sin(k[1]))) - (k[0]/((k[1]**2)+1))) + 0.01)
+    # fitnessfunc= 1/((((np.cos(k[0])*np.sin(k[1]))) - (k[0]/((k[1]**2)+1))) + 0.01)
+    h= ((np.cos(k[0])*np.sin(k[1])) - (k[0]/(k[1]**2+1)))
+    a= 0.01
+    fitnessfunc= 1/(h+a)
     return fitnessfunc
 
 def nampungfitness(populatt,popsize): 
@@ -130,112 +77,34 @@ def nampungfitness(populatt,popsize):
         fit_all.append(fitnesss(popsize[i]))
     return fit_all
 
-def tournamentSelection(pop, uk_tour, popsize):
+def tournamentSelection(pop, toursz, popsize):
     best_krom=[]
-    for i in range(1, uk_tour):
+    for i in range(1, toursz):
         p=populationbaru[random.randint(0,popsize-1)]
         if (len(best_krom) == 0) or fitnesss(p)>fitnesss(best_krom):
             best_krom=p
     return best_krom
 
+populationbaru= generatePopulation()
 
-# print("ini fitness")
+# print("============================ Populasi ==========================")
+# print(populationbaru)
+# print("============================ ===================================")
 
-# print(fitnesss(populationbaru))
-
-# j= random.choice(fitnesss(populationbaru))
-# print(j)
-
-# best_krom=[]
-# for i in range(1, uk_tour):
-#     p=populationbaru[random.randint(0,popsize)]
-#     if (best_krom==[]) or fitnesss(p)>fitnesss(best_krom):
-#         best_krom = p
-# print("============================ Hasil Fitness Semua Infividu ==========================")
-# print(hasilfitnesss(populationbaru))
-# print("============================ =======================================================")
-# print(tournamentSelection(populationbaru,uk_tour,popsize))
-# print("============================parent1  =======================================================")
-# parent1 = tournamentSelection(populationbaru,uk_tour,popsize)
-# print(parent1)
-# print("============================ ==============================================================")
 # print("")
-# print("============================parent 2 =======================================================")
-# parent2 = tournamentSelection(populationbaru,uk_tour,popsize)
-# print(parent2)
-# print("============================ =======================================================")
-# print("")
-# print("ini mutasi")
-# if(parent1==parent2):
-#     parent2 = tournamentSelection(populationbaru,uk_tour,popsize)
-# print("============================ =======================================================")
-# print(mutation(parent1,parent2,pmutate))
-# print("============================anaknya =======================================================")
-# print(parent1)
-# print(parent2)
-# child= crossover(parent1,parent2,pcross)
-# print(child)
-# best_krom=[]
-# for i in range(1, uk_tour):
-#     p=populationbaru[random.randint(0,popsize-1)]
-#     print("coba")
-#     if (len(best_krom) == 0) or fitnesss(p)>fitnesss(best_krom):
-#         best_krom=p
-#         print(best_krom)
 
 
+# print(hasilfitnesss(populationbaru,popsize)) # digunakan untuk tracing
 
-# print(best_krom)
-# print(np.max(best_krom))
-
-
-# krom = fitnesss(populationbaru)
-# print (krom)
-# parent1=tournamentSelection(populationbaru,uk_tour,popsize)
-# print ("ini parent")
-# print(parent1)
-
-#print(fitnesss(populationbaru))
-# print("ini maks ")
-# print(np.max(fitnesss(populationbaru)))
-
-
-
-
-
-
-
-# print(nampungencoding(populationbaru))
-# for i in range (popsize+1):
-#     print(fitnesss(populationbaru[i]))
-
-# print("Ini Maks ")
-# print(fitnesss(max(populationbaru)))
-
-#print(nampungencoding(populationbaru))
-
-
-# encodingKromosom(new_pop)
-# pupulasi = generatePopulation()
-# print(pupulasi)
-
-# for i in range(popsize):
-#     print(encodingKromosom(pupulasi))
-
-
-#arr_fitness = encodingKromosom(new_pop)
-#print(arr_fitness)
-
-population = generatePopulasi(popsize)
 for i in range(generation):
-    fungsfitness= hasilfitnesss(populationbaru)
+    fungsfitness= hasilfitnesss(populationbaru,popsize)
+    # print(fungsfitness) #dapat digunakan untuk tracing nilai fitness yang didapatkan pergenerasi
     new_pop = []
-
     bestfitness=getElitisme(fungsfitness)
     new_pop.append(populationbaru[bestfitness])
     new_pop.append(populationbaru[bestfitness])
-    i=0
-    while (i<popsize-1):
+    j=0
+    while (j<popsize-1):
         parent1 = tournamentSelection(populationbaru,toursize,popsize)
         parent2 = tournamentSelection(populationbaru,toursize,popsize)
         while (parent1==parent2):
@@ -245,18 +114,17 @@ for i in range(generation):
         child= crossover(coppar1,coppar2,pcross)
         child= mutation(child[0],child[1],pmutate)
         new_pop += child
-        i+=2
+        j+=2
     populationbaru= new_pop
-fungsfitness= hasilfitnesss(populationbaru)
+fungsfitness= hasilfitnesss(populationbaru,popsize)
 result =getElitisme(fungsfitness)
-totalgen=totalgen+generation
+
 
 print("")
 print("========================================================================================")
-print('           HASIL MINIMASI FUNGSI  ')
-print()
+print('           Hasil Minimasi Fungsi Genetic Algorithm  ')
+print("")
 print('Kromosom terbaik:', populationbaru[result])
-print('Nilai Fitness terbaik :', fitnesss(populationbaru[result]))
-print('Hasil decode    :', encodingKromosom(populationbaru[result]))
-print("copy")
+print('Hasil encode    :', encodingKromosom(populationbaru[result]))
+print('Nilai Fitness terbaik :', fitnesss(populationbaru[result]) )
 print("========================================================================================")
